@@ -1,14 +1,13 @@
-﻿namespace TODOLIST_2.AboutNotePage;
+﻿namespace ToDoList.AboutNotePage;
 
 public partial class AboutNote : ContentPage
 {
-	public string AboutNotes;
+    public string AboutNotes;
 
-	public AboutNote(string AN)
-	{
-		InitializeComponent();
-		AboutNoteLabel.Text = AN;
+    public AboutNote(string AN)
+    {
+        InitializeComponent();
+        AboutNoteLabel.Text = AN;
 
     }
-
 }

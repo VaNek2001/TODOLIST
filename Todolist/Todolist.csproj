@@ -45,4 +45,10 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="AboutNotePage\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="AboutNotePage\" />
+	</ItemGroup>
 </Project>
