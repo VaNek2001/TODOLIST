@@ -16,30 +16,41 @@
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="Fill">
 
-                    <Entry
-                        x:Name="Entry"
+                <Entry
+                        x:Name="EntryEdit"
                         Placeholder="Введите задачу"
                         FontFamily="Helvetica"
                         FontSize="Default"
                         VerticalOptions="Center"
                         WidthRequest="250"
+                        Text="{Binding ActiveText}"
                         ClearButtonVisibility="WhileEditing"/>
-
-                    <Button
-                         Text = "+"
-                         TextColor="#4B2DCB"
-                         FontSize="Large"
-                         WidthRequest="50"
-                         BackgroundColor="AliceBlue"
-                         BorderWidth="3"
-                         BorderColor="#4B2DCB"
-                         HorizontalOptions="Center"
-                         CornerRadius="25"
-                         Command="{Binding AddItemCommand}"
-                         CommandParameter="{Binding Source={x:Reference Entry}, Path=Text}"/>
+                <Button
+                        HeightRequest="50"
+                        Text = "+"
+                        TextColor="#4B2DCB"
+                        FontSize="Large"
+                        WidthRequest="50"
+                        BackgroundColor="AliceBlue"
+                        BorderWidth="3"
+                        BorderColor="#4B2DCB"
+                        HorizontalOptions="Center"
+                        CornerRadius="25"
+                        Command="{Binding AddItemCommand}"
+                        CommandParameter="{Binding Source={x:Reference EntryEdit}, Path=Text}"
+                        IsVisible="{Binding ChangeModeInverse}"
+                        IsEnabled="{Binding ChangeModeInverse}"/>
+                <Button
+                        Text="Save"
+                        HeightRequest="50"
+                        WidthRequest="65"
+                        IsVisible="{Binding ChangeMode}"
+                        IsEnabled="{Binding ChangeMode}"
+                        Command="{Binding SaveCommand}"
+                        CommandParameter="{Binding Source={x:Reference EntryEdit}, Path=Text}"/>
             </HorizontalStackLayout>
             <StackLayout
-                    Orientation="Horizontal" HorizontalOptions="Center" Spacing="30" RadioButtonGroup.SelectedValue="{Binding color}">
+                    Orientation="Horizontal" HorizontalOptions="Center" Spacing="30" RadioButtonGroup.GroupName="{Binding}" RadioButtonGroup.SelectedValue="{Binding color}">
                 <RadioButton Value="Red" BackgroundColor="Red" IsChecked="True"/>
                 <RadioButton Value="Green" BackgroundColor="Green"/>
                 <RadioButton Value="Orange" BackgroundColor="Orange"/>
@@ -48,7 +59,7 @@
             </StackLayout>
             <HorizontalStackLayout Margin="10"/>
 
-            <ListView x:Name="NoteListView" ItemsSource="{Binding ToDoItems}">
+            <ListView ItemSelected="OnAboutNote" x:Name="NoteListView" ItemsSource="{Binding ToDoItems}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="ToDoList:ToDoItem">
                         <ViewCell>
@@ -56,21 +67,21 @@
 
                                 <HorizontalStackLayout Spacing="20">
 
-                                <HorizontalStackLayout Spacing="-10">
-                                    <CheckBox x:Name="checkBox" VerticalOptions="Center"/>
-                                    <BoxView CornerRadius="5" Color="{Binding Color}" WidthRequest="19" HeightRequest="19"/> 
-                                </HorizontalStackLayout>
-                                
-                                <Label VerticalTextAlignment = "Center" InputTransparent="True" MaximumWidthRequest="250" LineBreakMode="WordWrap" Text="{Binding Title}">
-                                    <Label.Triggers>
-                                        <DataTrigger
+                                    <HorizontalStackLayout Spacing="-10">
+                                        <CheckBox x:Name="checkBox" VerticalOptions="Center"/>
+                                        <BoxView CornerRadius="5" Color="{Binding Color}" WidthRequest="19" HeightRequest="19"/>
+                                    </HorizontalStackLayout>
+
+                                    <Label VerticalTextAlignment = "Center" InputTransparent="True" MaximumWidthRequest="250" LineBreakMode="TailTruncation" Text="{Binding Title}">
+                                        <Label.Triggers>
+                                            <DataTrigger
                                             Binding = "{Binding Source={x:Reference checkBox}, Path=IsChecked}"
                                             Value="true"
                                             TargetType="Label">
-                                            <Setter Property = "TextDecorations" Value="Strikethrough"/>
-                                        </DataTrigger>
-                                    </Label.Triggers>
-                                </Label>
+                                                <Setter Property = "TextDecorations" Value="Strikethrough"/>
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
 
                                 </HorizontalStackLayout>
 
@@ -78,12 +89,12 @@
                                     <Button Text="/" Scale="0.8" Command="{Binding Source={RelativeSource FindAncestorBindingContext, AncestorType={x:Type ToDoList:MainViewModel}}, Path=ChangeCommand}" CommandParameter="{Binding}"/>
                                     <Button Text="X" Scale="0.8" Command="{Binding Source={RelativeSource FindAncestorBindingContext, AncestorType={x:Type ToDoList:MainViewModel}}, Path=DeleteItemCommand}" CommandParameter="{Binding}" />
                                 </HorizontalStackLayout>
-                                
-                                </FlexLayout>
+
+                            </FlexLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>           
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
